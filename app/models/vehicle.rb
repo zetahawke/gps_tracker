@@ -1,3 +1,5 @@
+require 'pry'
+
 class Vehicle < ApplicationRecord
   has_many :gps_waypoints
 
@@ -11,21 +13,32 @@ class Vehicle < ApplicationRecord
     end
 
     def safe_nested_params
-      %i[identifier latitude longitude sent_at]
+      %i[vehicle_identifier latitude longitude sent_at]
     end
 
     def save_waypoint(params)
-      vehicle = Vehicle.find_by(identifier: params[:vehicle_identifier])
-      if vehicle.present?
-        vehicle.gps_waypoints.create(params.slice(GpsWaypoint.safe_params))
-      else
-        vehicle.create!(params)
-      end
+      vehicle = find_or_create(params)
+      vehicle.gps_waypoints.create!(params.permit(GpsWaypoint.safe_params))
+      vehicle.serialize_response
+    end
+
+    def find_or_create(params)
+      find_by(identifier: params[:vehicle_identifier]) || create!(identifier: params[:vehicle_identifier])
     end
 
     def only_last_gps_waypoint
       where('').map(&:with_last_gps_waypoint)
     end
+  end
+
+  def serialize_response
+    {
+      vehicle_identifier: identifier
+    }.merge!(gps_waypoints.last.serializable_hash.slice(
+      'latitude',
+      'longitude',
+      'sent_at'
+    ))
   end
 
   def with_last_gps_waypoint
