@@ -7,7 +7,11 @@ class GpsWaypoint < ApplicationRecord
 
   class << self
     def safe_params
-      %i[latitude longitude sent_at vehicle_identifier]
+      %i[latitude longitude sent_at]
     end
+  end
+
+  def serialized_data
+    serializable_hash(only: self.class.safe_params)
   end
 end
