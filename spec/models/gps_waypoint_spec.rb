@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GpsWaypoint, :type => :model do
+RSpec.describe GpsWaypoint, type: :model do
   subject {
     described_class.new(
       latitude: '-32.13221',
