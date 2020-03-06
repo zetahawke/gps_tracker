@@ -3,6 +3,8 @@ class Vehicle < ApplicationRecord
 
   accepts_nested_attributes_for :gps_waypoints
 
+  validates_presence_of :identifier
+
   class << self
     def safe_params
       %i[identifier]
