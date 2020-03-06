@@ -22,5 +22,13 @@ class Vehicle < ApplicationRecord
         vehicle.create!(params)
       end
     end
+
+    def only_last_gps_waypoint
+      where('').map(&:with_last_gps_waypoint)
+    end
+  end
+
+  def with_last_gps_waypoint
+    serializable_hash.merge!(gps_waypoints.last.try(:serializable_hash))
   end
 end

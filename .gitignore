@@ -28,3 +28,6 @@
 
 # ignore database info and/or structures
 db/schema.rb
+
+# Gem dependencies
+Gemfile.lock

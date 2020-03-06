@@ -1,0 +1,10 @@
+<% provide :head_tags do %>
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+        initMap(<%=@vehicles%>)
+    });
+    </script>
+<% end %>
+<p>
+  <div id="map"></div>
+</p>
