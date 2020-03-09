@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   get '/show', to: 'gps_waypoints#show'
 
+  resources :gps_waypoints, only: %i[] do
+    collection do
+      get 'last_vehicles_location'
+    end
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post 'gps', to: 'gps_waypoints#insert_gps_waypoint'
