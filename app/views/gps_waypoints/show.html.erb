@@ -1,8 +1,6 @@
 <% provide :head_tags do %>
     <script>
-    document.addEventListener("DOMContentLoaded", function(){
-        initMap(<%=@vehicles%>)
-    });
+    document.addEventListener("DOMContentLoaded", function(){ initMap() });
     </script>
 <% end %>
 <p>
